@@ -1,0 +1,17 @@
+    .product-form {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      margin-top: 16px;
+      min-width: 350px;
+    }
+    .form-field-full {
+      width: 100%;
+    }
+    .price-row {
+      display: flex;
+      gap: 16px;
+    }
+    .form-field-half {
+      flex: 1;
+    }

@@ -1,0 +1,59 @@
+<div class="auth-container">
+  <mat-card class="auth-card">
+    <div class="auth-header">
+      <h1>Welcome Back</h1>
+      <p>{{ isOtpRequired ? 'Enter the OTP sent to your email.' : 'Sign in to continue to your dashboard.' }}</p>
+    </div>
+
+    <form *ngIf="!isOtpRequired" [formGroup]="loginForm" (ngSubmit)="onLoginSubmit()">
+      <mat-form-field appearance="outline" class="form-field-full">
+        <mat-label>Email Address</mat-label>
+        <input matInput formControlName="email" type="email" placeholder="john@example.com">
+        <mat-error *ngIf="loginForm.get('email')?.hasError('required')">
+          Email is required
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="form-field-full">
+        <mat-label>Password</mat-label>
+        <input matInput formControlName="password" type="password">
+        <mat-error *ngIf="loginForm.get('password')?.hasError('required')">
+          Password is required
+        </mat-error>
+      </mat-form-field>
+
+      <div class="actions">
+        <div class="forgot-password-link" style="text-align: right; margin-bottom: 16px;">
+          <a routerLink="/forgot-password" style="font-size: 14px; color: var(--primary-color); text-decoration: none;">Forgot Password?</a>
+        </div>
+        <button mat-flat-button class="primary-button" type="submit" [disabled]="isLoading">
+          {{ isLoading ? 'Signing in...' : 'Sign In' }}
+        </button>
+
+        <div class="links">
+          Don't have an account? <a routerLink="/register">Register here</a>
+        </div>
+      </div>
+    </form>
+
+    <form *ngIf="isOtpRequired" [formGroup]="otpForm" (ngSubmit)="onOtpSubmit()">
+      <mat-form-field appearance="outline" class="form-field-full">
+        <mat-label>6-Digit OTP</mat-label>
+        <input matInput formControlName="otp" type="text" placeholder="123456" maxlength="6">
+        <mat-error *ngIf="otpForm.get('otp')?.invalid">
+          Please enter a valid 6-digit OTP
+        </mat-error>
+      </mat-form-field>
+
+      <div class="actions">
+        <button mat-flat-button class="primary-button" type="submit" [disabled]="isLoading">
+          {{ isLoading ? 'Verifying...' : 'Verify & Login' }}
+        </button>
+
+        <div class="links">
+          <a (click)="isOtpRequired = false">Back to Login</a>
+        </div>
+      </div>
+    </form>
+  </mat-card>
+</div>

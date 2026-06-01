@@ -1,0 +1,101 @@
+    <div class="profile-container">
+      <h2>Profile Management</h2>
+      
+      <div class="forms-grid">
+        <!-- Personal Details -->
+        <mat-card class="profile-card">
+          <mat-card-header>
+            <mat-card-title>Personal Details</mat-card-title>
+          </mat-card-header>
+          <mat-card-content>
+            <div class="profile-picture-container">
+              <img [src]="getProfileImageUrl()" alt="Profile Picture" class="profile-avatar">
+              <div>
+                <button mat-stroked-button color="primary" type="button" (click)="profilePicInput.click()">Change Picture</button>
+                <input type="file" #profilePicInput class="file-input" accept="image/*" (change)="onProfilePictureSelected($event)">
+              </div>
+            </div>
+            <form [formGroup]="profileForm" (ngSubmit)="updateProfile()">
+              <mat-form-field appearance="outline" class="form-field-full">
+                <mat-label>Full Name</mat-label>
+                <input matInput formControlName="fullName">
+              </mat-form-field>
+              
+              <mat-form-field appearance="outline" class="form-field-full">
+                <mat-label>Phone Number</mat-label>
+                <input matInput formControlName="phoneNumber">
+              </mat-form-field>
+              
+              <div class="toggle-container">
+                <mat-slide-toggle formControlName="isOtpEnabled" color="primary">
+                  Enable Login OTP (Two-Factor Authentication)
+                </mat-slide-toggle>
+              </div>
+              
+              <button mat-flat-button class="primary-button" type="submit" [disabled]="profileForm.pristine">Update Profile</button>
+            </form>
+          </mat-card-content>
+        </mat-card>
+
+        <!-- Change Password -->
+        <mat-card class="profile-card">
+          <mat-card-header>
+            <mat-card-title>Change Password</mat-card-title>
+          </mat-card-header>
+          <mat-card-content>
+            <form [formGroup]="passwordForm" (ngSubmit)="changePassword()">
+              <mat-form-field appearance="outline" class="form-field-full">
+                <mat-label>Current Password</mat-label>
+                <input matInput formControlName="currentPassword" type="password">
+              </mat-form-field>
+              
+              <mat-form-field appearance="outline" class="form-field-full">
+                <mat-label>New Password</mat-label>
+                <input matInput formControlName="newPassword" type="password">
+              </mat-form-field>
+              
+              <button mat-flat-button color="accent" type="submit">Change Password</button>
+            </form>
+          </mat-card-content>
+        </mat-card>
+
+        <!-- Business Profile -->
+        <mat-card class="profile-card">
+          <mat-card-header>
+            <mat-card-title>Business Details</mat-card-title>
+          </mat-card-header>
+          <mat-card-content>
+            <div class="profile-picture-container">
+              <img [src]="getBusinessLogoUrl()" alt="Business Logo" class="business-logo">
+              <div>
+                <button mat-stroked-button color="primary" type="button" (click)="businessLogoInput.click()">Change Logo</button>
+                <input type="file" #businessLogoInput class="file-input" accept="image/*" (change)="onBusinessLogoSelected($event)">
+              </div>
+            </div>
+            <form [formGroup]="businessForm" (ngSubmit)="updateBusinessProfile()">
+              <mat-form-field appearance="outline" class="form-field-full">
+                <mat-label>Company Name</mat-label>
+                <input matInput formControlName="companyName">
+              </mat-form-field>
+              
+              <mat-form-field appearance="outline" class="form-field-full">
+                <mat-label>Address</mat-label>
+                <input matInput formControlName="address">
+              </mat-form-field>
+
+              <mat-form-field appearance="outline" class="form-field-full">
+                <mat-label>Tax Number</mat-label>
+                <input matInput formControlName="taxNumber">
+              </mat-form-field>
+
+              <mat-form-field appearance="outline" class="form-field-full">
+                <mat-label>Business Phone</mat-label>
+                <input matInput formControlName="phoneNumber">
+              </mat-form-field>
+              
+              <button mat-flat-button class="primary-button" type="submit" [disabled]="businessForm.pristine">Update Business</button>
+            </form>
+          </mat-card-content>
+        </mat-card>
+      </div>
+    </div>

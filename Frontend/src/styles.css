@@ -1,0 +1,108 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+@import '@angular/material/prebuilt-themes/indigo-pink.css';
+
+html, body {
+  height: 100%;
+  margin: 0;
+  font-family: 'Inter', sans-serif;
+  background-color: #f4f7fb;
+  color: #333;
+}
+
+/* Custom CSS variables for a modern single color theme (Indigo) */
+:root {
+  --primary-color: #4f46e5; /* Indigo 600 */
+  --primary-color-hover: #4338ca; /* Indigo 700 */
+  --secondary-color: #e0e7ff; /* Indigo 100 */
+  --text-primary: #111827;
+  --text-secondary: #4b5563;
+  --card-bg: #ffffff;
+  --border-radius: 12px;
+}
+
+/* Base Material Overrides */
+.mat-mdc-card {
+  border-radius: var(--border-radius) !important;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05) !important;
+}
+
+.mat-mdc-button-base.mdc-button--raised {
+  border-radius: 8px !important;
+  font-weight: 500 !important;
+  letter-spacing: 0.3px !important;
+}
+
+.primary-button {
+  background-color: var(--primary-color) !important;
+  color: white !important;
+  padding: 12px 24px !important;
+  height: auto !important;
+  font-size: 16px !important;
+  transition: all 0.3s ease !important;
+}
+
+.primary-button:hover {
+  background-color: var(--primary-color-hover) !important;
+  box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3) !important;
+}
+
+/* Dynamic container for auth screens */
+.auth-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #f3f4f6 0%, #e0e7ff 100%);
+}
+
+.auth-card {
+  width: 100%;
+  max-width: 550px;
+  padding: 32px 24px;
+}
+
+.auth-header {
+  text-align: center;
+  margin-bottom: 24px;
+}
+
+.auth-header h1 {
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--primary-color);
+  margin: 0 0 8px;
+}
+
+.auth-header p {
+  color: var(--text-secondary);
+  margin: 0;
+}
+
+.form-field-full {
+  width: 100%;
+  margin-bottom: 16px;
+}
+
+.actions {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-top: 16px;
+}
+
+.links {
+  text-align: center;
+  font-size: 14px;
+  color: var(--text-secondary);
+}
+
+.links a {
+  color: var(--primary-color);
+  text-decoration: none;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.links a:hover {
+  text-decoration: underline;
+}
