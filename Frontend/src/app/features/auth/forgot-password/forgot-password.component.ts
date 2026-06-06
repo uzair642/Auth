@@ -157,4 +157,26 @@ export class ForgotPasswordComponent implements OnInit {
       }
     }
   }
+
+  onOtpPaste(event: ClipboardEvent) {
+    event.preventDefault();
+    const pastedData = event.clipboardData?.getData('text');
+    if (!pastedData) return;
+
+    const digits = pastedData.replace(/\D/g, '').substring(0, 6).split('');
+    if (digits.length === 0) return;
+
+    const patchObj: any = {};
+    digits.forEach((digit, index) => {
+      patchObj[`otp${index}`] = digit;
+    });
+    this.otpForm.patchValue(patchObj);
+    this.otpForm.markAllAsTouched();
+
+    const nextIndex = Math.min(digits.length, 5);
+    const nextInput = document.getElementById(`reset-otp-${nextIndex}`);
+    if (nextInput) {
+      nextInput.focus();
+    }
+  }
 }

@@ -5,11 +5,20 @@
       </button>
     </div>
 
-    <div class="table-toolbar" style="margin-bottom: 16px;">
+    <div class="table-toolbar" style="margin-bottom: 16px; display: flex; gap: 16px;">
       <mat-form-field appearance="outline" style="width: 100%; max-width: 400px;">
         <mat-label>Search Products</mat-label>
         <input matInput (keyup)="applyFilter($event)" placeholder="Ex. Wireless Mouse" #input>
         <mat-icon matSuffix>search</mat-icon>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" style="width: 150px;">
+        <mat-label>Currency</mat-label>
+        <mat-select [(ngModel)]="selectedCurrency">
+          <mat-option *ngFor="let currency of currencies" [value]="currency">
+            {{currency}}
+          </mat-option>
+        </mat-select>
       </mat-form-field>
     </div>
 
@@ -29,13 +38,17 @@
       <!-- Regular Price Column -->
       <ng-container matColumnDef="regularPrice">
         <th mat-header-cell *matHeaderCellDef mat-sort-header> Regular Price </th>
-        <td mat-cell *matCellDef="let element"> ${{element.regularPrice | number:'1.2-2'}} </td>
+        <td mat-cell *matCellDef="let element"> 
+          {{getConvertedPrice(element.regularPrice) | number:'1.2-2'}} {{selectedCurrency}}
+        </td>
       </ng-container>
 
       <!-- Sale Price Column -->
       <ng-container matColumnDef="salePrice">
         <th mat-header-cell *matHeaderCellDef mat-sort-header> Sale Price </th>
-        <td mat-cell *matCellDef="let element"> ${{element.salePrice | number:'1.2-2'}} </td>
+        <td mat-cell *matCellDef="let element"> 
+          {{getConvertedPrice(element.salePrice) | number:'1.2-2'}} {{selectedCurrency}}
+        </td>
       </ng-container>
 
       <!-- Active Column -->

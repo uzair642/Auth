@@ -40,4 +40,12 @@ export class ProductService {
   deleteProduct(id: number): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/${id}`);
   }
+
+  generateDescription(payload: any): Observable<any> {
+    return this.http.post<any>('http://localhost:5026/api/productdescription/generate', payload);
+  }
+
+  getExchangeRates(baseCurrency: string): Observable<any> {
+    return this.http.get<any>(`http://localhost:5026/api/currencyexchange/latest/${baseCurrency}`);
+  }
 }

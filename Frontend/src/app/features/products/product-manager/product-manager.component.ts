@@ -10,6 +10,8 @@ import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatSort, MatSortModule } from '@angular/material/sort';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
+import { FormsModule } from '@angular/forms';
 import { ProductService, Product } from '../../../core/services/product.service';
 import { ProductDialogComponent } from './product-dialog.component';
 
@@ -25,7 +27,9 @@ import { ProductDialogComponent } from './product-dialog.component';
     MatPaginatorModule,
     MatSortModule,
     MatFormFieldModule,
-    MatInputModule
+    MatInputModule,
+    MatSelectModule,
+    FormsModule
   ],
   templateUrl: './product-manager.component.html',
   styleUrl: './product-manager.component.css'
@@ -37,6 +41,10 @@ export class ProductManagerComponent implements OnInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
+  selectedCurrency = 'USD';
+  currencies = ['USD', 'EUR', 'GBP', 'PKR', 'CAD', 'AUD', 'JPY'];
+  exchangeRates: { [key: string]: number } = {};
+
   constructor(
     private productService: ProductService,
     private dialog: MatDialog,
@@ -46,6 +54,26 @@ export class ProductManagerComponent implements OnInit {
 
   ngOnInit() {
     this.loadProducts();
+    this.fetchExchangeRates();
+  }
+
+  fetchExchangeRates() {
+    this.productService.getExchangeRates('USD').subscribe({
+      next: (rates) => {
+        this.exchangeRates = rates;
+        this.exchangeRates['USD'] = 1; // Base currency
+        this.cdr.detectChanges();
+      },
+      error: () => console.error('Failed to load exchange rates')
+    });
+  }
+
+  getConvertedPrice(price: number): number {
+    if (!price) return 0;
+    if (this.selectedCurrency === 'USD' || !this.exchangeRates[this.selectedCurrency]) {
+      return price;
+    }
+    return price * this.exchangeRates[this.selectedCurrency];
   }
 
   loadProducts() {
@@ -68,7 +96,8 @@ export class ProductManagerComponent implements OnInit {
 
   openDialog(product?: Product) {
     const dialogRef = this.dialog.open(ProductDialogComponent, {
-      width: '400px',
+      width: '650px',
+      maxWidth: '90vw',
       data: product || null
     });
 

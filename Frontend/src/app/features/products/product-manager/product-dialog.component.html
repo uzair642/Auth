@@ -1,46 +1,63 @@
-    <h2 mat-dialog-title>{{ isEdit ? 'Edit Product' : 'Add New Product' }}</h2>
-    <mat-dialog-content>
-      <form id="productForm" [formGroup]="productForm" (ngSubmit)="onSubmit()" class="product-form">
-        <mat-form-field appearance="outline" class="form-field-full">
-          <mat-label>Product Name</mat-label>
-          <input matInput formControlName="name" placeholder="E.g., Wireless Mouse">
-          <mat-error *ngIf="productForm.get('name')?.invalid">Name is required</mat-error>
-        </mat-form-field>
+<h2 mat-dialog-title>{{ isEdit ? 'Edit Product' : 'Add New Product' }}</h2>
+<mat-dialog-content>
+  <form id="productForm" [formGroup]="productForm" (ngSubmit)="onSubmit()" class="product-form">
+    
+    <div class="row-container">
+      <mat-form-field appearance="outline" class="form-field-half">
+        <mat-label>Product Name</mat-label>
+        <input matInput formControlName="name" placeholder="E.g., Wireless Mouse">
+        <mat-error *ngIf="productForm.get('name')?.invalid">Name is required</mat-error>
+      </mat-form-field>
 
-        <mat-form-field appearance="outline" class="form-field-full">
-          <mat-label>Category</mat-label>
-          <input matInput formControlName="category" placeholder="E.g., Electronics">
-        </mat-form-field>
+      <mat-form-field appearance="outline" class="form-field-half">
+        <mat-label>Category</mat-label>
+        <mat-select formControlName="category">
+          <mat-option *ngFor="let cat of categories" [value]="cat">{{cat}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
 
-        <div class="price-row">
-          <mat-form-field appearance="outline" class="form-field-half">
-            <mat-label>Regular Price</mat-label>
-            <span matTextPrefix>$&nbsp;</span>
-            <input matInput type="number" formControlName="regularPrice" placeholder="0.00" min="0" step="0.01">
-            <mat-error *ngIf="productForm.get('regularPrice')?.invalid">Valid price is required</mat-error>
-          </mat-form-field>
+    <div class="row-container">
+      <mat-form-field appearance="outline" class="form-field-half">
+        <mat-label>Regular Price</mat-label>
+        <span matTextPrefix>$&nbsp;</span>
+        <input matInput type="number" formControlName="regularPrice" placeholder="0.00" min="0" step="0.01">
+        <mat-error *ngIf="productForm.get('regularPrice')?.invalid">Valid price is required</mat-error>
+      </mat-form-field>
 
-          <mat-form-field appearance="outline" class="form-field-half">
-            <mat-label>Sale Price</mat-label>
-            <span matTextPrefix>$&nbsp;</span>
-            <input matInput type="number" formControlName="salePrice" placeholder="0.00" min="0" step="0.01">
-            <mat-error *ngIf="productForm.get('salePrice')?.invalid">Valid price is required</mat-error>
-          </mat-form-field>
-        </div>
-        
-        <mat-checkbox formControlName="isActive" color="primary">Active</mat-checkbox>
-
-        <mat-form-field appearance="outline" class="form-field-full">
-          <mat-label>Description</mat-label>
-          <textarea matInput formControlName="description" rows="3" placeholder="Enter product details"></textarea>
-          <mat-error *ngIf="productForm.get('description')?.invalid">Description is required</mat-error>
-        </mat-form-field>
-        
-      </form>
-    </mat-dialog-content>
-    <mat-dialog-actions align="end">
-      <button mat-button type="button" mat-dialog-close>Cancel</button>
-      <button mat-flat-button class="primary-button" type="submit" form="productForm">
-        {{ isEdit ? 'Update' : 'Create' }}
+      <mat-form-field appearance="outline" class="form-field-half">
+        <mat-label>Sale Price</mat-label>
+        <span matTextPrefix>$&nbsp;</span>
+        <input matInput type="number" formControlName="salePrice" placeholder="0.00" min="0" step="0.01">
+        <mat-error *ngIf="productForm.get('salePrice')?.invalid">Valid price is required</mat-error>
+      </mat-form-field>
+    </div>
+    
+    <div style="display: flex; justify-content: space-between; align-items: center; padding: 4px 0 12px 0;">
+      <mat-checkbox formControlName="isActive" color="primary" style="margin-left: 4px;">Active Status</mat-checkbox>
+      <button mat-stroked-button type="button" class="ai-generator-btn" (click)="openAiGenerator()">
+        <mat-icon>auto_awesome</mat-icon> Open AI Generator
       </button>
-    </mat-dialog-actions>
+    </div>
+
+    <div style="display: flex; flex-direction: column; gap: 6px; padding: 4px 0;">
+      <mat-label style="font-size: 12px; color: #666; font-weight: 500;">Description</mat-label>
+      <div #mainEditor
+           class="rich-text-editor" 
+           contenteditable="true" 
+           (input)="onDescriptionChange($event)"
+           placeholder="Enter product details">
+      </div>
+      <mat-error *ngIf="productForm.get('description')?.invalid && productForm.get('description')?.touched" style="font-size: 12px; color: #f44336; margin-top: 4px;">
+        Description is required
+      </mat-error>
+    </div>
+    
+  </form>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-button type="button" class="cancel-button" mat-dialog-close>Cancel</button>
+  <button mat-flat-button class="primary-button" type="submit" form="productForm">
+    {{ isEdit ? 'Update' : 'Create' }}
+  </button>
+</mat-dialog-actions>
