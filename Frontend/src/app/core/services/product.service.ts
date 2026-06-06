@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { environment } from '../../../environments/environment';
 
 export interface Product {
   id?: number;
@@ -17,7 +18,8 @@ export interface Product {
   providedIn: 'root'
 })
 export class ProductService {
-  private apiUrl = 'http://localhost:5026/api/product';
+  private apiUrl = `${environment.apiUrl}/api/product`;
+  private baseUrl = environment.apiUrl;
 
   constructor(private http: HttpClient) {}
 
@@ -42,10 +44,10 @@ export class ProductService {
   }
 
   generateDescription(payload: any): Observable<any> {
-    return this.http.post<any>('http://localhost:5026/api/productdescription/generate', payload);
+    return this.http.post<any>(`${this.baseUrl}/api/productdescription/generate`, payload);
   }
 
   getExchangeRates(baseCurrency: string): Observable<any> {
-    return this.http.get<any>(`http://localhost:5026/api/currencyexchange/latest/${baseCurrency}`);
+    return this.http.get<any>(`${this.baseUrl}/api/currencyexchange/latest/${baseCurrency}`);
   }
 }

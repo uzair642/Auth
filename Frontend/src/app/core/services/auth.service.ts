@@ -1,12 +1,13 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable, tap } from 'rxjs';
+import { environment } from '../../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-  private apiUrl = 'http://localhost:5026/api/auth'; // Ensure ASP.NET core runs here
+  private apiUrl = `${environment.apiUrl}/api/auth`;
   private tokenKey = 'jwt_token';
   private isAuthenticatedSubject = new BehaviorSubject<boolean>(this.hasToken());
 
